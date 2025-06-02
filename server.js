@@ -32,6 +32,11 @@ dbConnection("mongodb://127.0.0.1:27017/short_url").then(()=>
     console.log("Mongodb Connected")
 )
 
+app.get('/', (req, res) => {
+  res.render('home', { urls: [], id: null });
+});
+
+
 app.use("/url",restrictTo(["NORMAL","ADMIN"]),urlRoute);
 app.use("/",staticRoute);
 app.use("/user",userRoute);

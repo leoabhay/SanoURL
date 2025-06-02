@@ -1,7 +1,4 @@
 const Url = require("../Models/url.js");
-// const dns=require("dns");
-
-
 async function handleGenerateShortUrl(req, res) {
     const body = req.body;
     if (!body.url) {
@@ -41,20 +38,8 @@ async function handleAnalytics(req,res) {
     return res.json({totalClicks:result.visitHistory.length,analytics:result.visitHistory}) ;
 }
 
-//trace user ip address
-// dns.lookup("https://bitly.com/",(err,address,family)=>{
-//     console.log("Address:",address);
-//     console.log("Family:",family);
-// })
-//to get client system ip address
-
-// async function handleGetIpAddress(req,res,next) {
-    
-
-// }
 module.exports = {
     handleGenerateShortUrl,
     handleGetShortId,
-    handleAnalytics,
-    // handleGetIpAddress
+    handleAnalytics
 };
