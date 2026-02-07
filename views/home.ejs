@@ -1,170 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>URL Shortener</title>
+    <title>SanoURL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #f0f4f8;
-        color: #333;
-      }
-
-      .container {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 20px;
-      }
-
-      h1 {
-        text-align: center;
-        color: #007bff;
-        margin-top: 20px;
-      }
-
-      .generated-url {
-        background-color: #dff0d8;
-        color: #3c763d;
-        padding: 15px;
-        border-radius: 6px;
-        margin: 20px 0;
-        font-size: 1.1rem;
-        text-align: center;
-      }
-
-      form {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 30px;
-      }
-
-      form label {
-        font-weight: 500;
-        margin-bottom: 10px;
-      }
-
-      form input {
-        padding: 12px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        margin-bottom: 15px;
-        font-size: 1rem;
-      }
-
-      form button {
-        padding: 12px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-
-      form button:hover {
-        background-color: #0056b3;
-      }
-
-      .table-responsive {
-        overflow-x: auto;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      th, td {
-        padding: 12px 15px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-      }
-
-      th {
-        background-color: #007bff;
-        color: white;
-      }
-
-      tr:hover {
-        background-color: #f1f1f1;
-      }
-
-      @media (max-width: 600px) {
-        form input, form button {
-          width: 100%;
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --success: #10b981;
         }
 
-        th, td {
-          font-size: 0.9rem;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
         }
-      }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--text-dim);
+            font-size: 1.2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px;
+        }
+
+        .generated-section {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .generated-section p {
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .generated-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            color: #fff;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .generated-link:hover {
+            color: #818cf8;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        form input {
+            width: 100%;
+            padding: 18px 24px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--card-border);
+            border-radius: 16px;
+            color: #fff;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+
+        form button {
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        form button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        form button:active {
+            transform: translateY(0);
+        }
+
+        .stats-section {
+            width: 100%;
+        }
+
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .stats-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .table-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.03);
+            text-align: left;
+            padding: 16px 24px;
+            color: var(--text-dim);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 16px 24px;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .short-id-badge {
+            background: rgba(99, 102, 241, 0.15);
+            color: #a5b4fc;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        .url-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            max-width: 300px;
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: color 0.2s;
+        }
+
+        .url-link:hover {
+            color: var(--primary);
+        }
+
+        .clicks-count {
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            .card {
+                padding: 24px;
+            }
+            th, td {
+                padding: 12px 16px;
+            }
+            .url-link {
+                max-width: 150px;
+            }
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="container">
-      <h1>URL Shortener</h1>
+        <header class="header">
+            <h1>SanoURL</h1>
+            <p>Simple, Fast, and Open URL Shortener</p>
+        </header>
 
-      <% if (locals.id) { %>
-        <div class="generated-url">
-          <span><strong>Generated URL:</strong></span><br />
-          <a href="http://localhost:2001/url/<%= id %>" target="_blank">
-            http://localhost:2001/url/<%= id %>
-          </a>
-        </div>
-      <% } %>
-
-      <form method="POST" action="/url">
-        <label for="url">Enter your original URL:</label>
-        <input
-          type="text"
-          name="url"
-          id="url"
-          placeholder="https://example.com"
-          required
-        />
-        <button type="submit">Generate Short URL</button>
-      </form>
-
-      <% if (locals.urls) { %>
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Short ID</th>
-                <th>Original URL</th>
-                <th>Clicks</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% urls.forEach((url, index) => { %>
-                <tr>
-                  <td><%= index + 1 %></td>
-                  <td><%= url.shortId %></td>
-                  <td>
-                    <a href="<%= url.redirectUrl %>" target="_blank">
-                      <%= url.redirectUrl %>
+        <main class="card">
+            <% if (locals.id) { %>
+                <div class="generated-section">
+                    <p>Success! Your URL is ready:</p>
+                    <a href="/url/<%= id %>" class="generated-link" target="_blank">
+                        <%= process.env.BASE_URL %>/url/<%= id %>
                     </a>
-                  </td>
-                  <td><%= url.visitHistory.length %></td>
-                </tr>
-              <% }) %>
-            </tbody>
-          </table>
-        </div>
-      <% } %>
+                </div>
+            <% } %>
+
+            <form method="POST" action="/url">
+                <div class="input-group">
+                    <input
+                        type="url"
+                        name="url"
+                        placeholder="Paste your long link here (e.g., https://example.com/very/long/path)"
+                        required
+                    />
+                </div>
+                <button type="submit">Shorten URL</button>
+            </form>
+        </main>
+
+        <% if (false) { %>
+            <section class="stats-section">
+                <div class="stats-header">
+                    <h2>Recent Links</h2>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Short ID</th>
+                                <th>Original URL</th>
+                                <th>Clicks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% urls.slice().reverse().slice(0, 10).forEach((url) => { %>
+                                <tr>
+                                    <td><span class="short-id-badge"><%= url.shortId %></span></td>
+                                    <td>
+                                        <a href="<%= url.redirectUrl %>" class="url-link" target="_blank">
+                                            <%= url.redirectUrl %>
+                                        </a>
+                                    </td>
+                                    <td><span class="clicks-count"><%= url.visitHistory.length %></span></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        <% } %>
     </div>
-  </body>
+</body>
 </html>

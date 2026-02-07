@@ -15,10 +15,6 @@ visitHistory:[{
         type:Number
     }
 }],
-generatedBy:{
-    type:mongoose.Schema.ObjectId,
-    ref:"users"
-}
-},{timestamps:true});
+}, { timestamps: true });
 const Url=mongoose.model("url",urlSchema);
 module.exports=Url;
