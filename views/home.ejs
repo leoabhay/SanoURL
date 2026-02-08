@@ -143,6 +143,7 @@
         }
 
         form button {
+            width: 100%;
             padding: 18px;
             background: var(--primary);
             color: white;
@@ -162,6 +163,40 @@
 
         form button:active {
             transform: translateY(0);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        form button[type="submit"] {
+            flex: 3;
+        }
+
+        .btn-reset {
+            flex: 1;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-dim);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            border-color: rgba(255, 107, 107, 0.3);
+            transform: translateY(-2px);
         }
 
         .stats-section {
@@ -283,11 +318,18 @@
                     <input
                         type="url"
                         name="url"
+                        id="urlInput"
                         placeholder="Paste your long link here (e.g., https://example.com/very/long/path)"
                         required
                     />
                 </div>
-                <button type="submit">Shorten URL</button>
+                <div class="button-group">
+                    <button type="submit">Shorten URL</button>
+                    <a href="/" class="btn-reset" title="Reset form and clear link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                        Reset
+                    </a>
+                </div>
             </form>
         </main>
 
